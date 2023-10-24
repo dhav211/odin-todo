@@ -83,12 +83,10 @@ export function getAllTodaysTasks() {
     let todaysTasks = [];
 
     if (lists.size > 0) {
-        const allTasks = getAllTasks();
+        const allTasks = getAllUncompletedTasks();
 
         let todaysDate = DateTime.now();
         todaysTasks = allTasks.filter((task) => {
-            todaysDate.setHours(0,0,0);
-            
             if (task.dueDate.day === todaysDate.day && 
             task.dueDate.year === todaysDate.year && 
             task.dueDate.month === todaysDate.month) {
@@ -104,7 +102,7 @@ export function getAllThisWeeksTasks() {
     let weeksTasks = [];
 
     if (lists.size > 0) {
-        const allTasks = getAllTasks();
+        const allTasks = getAllUncompletedTasks();
 
         const todaysDate = DateTime.now();
         const sundaysDate = todaysDate.minus({days: todaysDate.day});
@@ -127,7 +125,7 @@ export function getAllUrgentTasks() {
     let urgentTasks = [];
 
     if (lists.size > 0) {
-        const allTasks = getAllTasks();
+        const allTasks = getAllUncompletedTasks();
 
         urgentTasks = allTasks.filter((task) => task.urgency === Urgency.High)
     }
@@ -139,6 +137,17 @@ function getAllTasks() {
     const tasks = [];
     lists.forEach((value, _key, _map) => {
         tasks.push(...value);
+    });
+
+    return tasks;
+}
+
+function getAllUncompletedTasks() {
+    const tasks = [];
+    lists.forEach((value, key, _map) => {
+        if (key !== "Completed") {
+            tasks.push(...value);
+        }
     });
 
     return tasks;

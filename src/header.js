@@ -50,6 +50,9 @@ function setAddTaskButton() {
     const addTaskButton = document.createElement('button');
     addTaskButton.id = "add-task-button";
     addTaskButton.classList.add("icon-button");
-    addTaskButton.addEventListener("click", openAddTaskBox);
+    addTaskButton.addEventListener("click", () => {
+        PubSub.publish("addTaskButtonPressed");
+        openAddTaskBox()
+    });
     headerRight.appendChild(addTaskButton);
 }

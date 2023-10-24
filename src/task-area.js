@@ -10,7 +10,8 @@ PubSub.subscribe("closeEditTaskBox", closeEditTaskBox);
 PubSub.subscribe("hamburgerMenuPressed", toggleTaskArea);
 PubSub.subscribe("navigatorButtonPressed", onNavigatorButtonPressed);
 PubSub.subscribe("taskCompleted", onTaskCompleted);
-PubSub.subscribe("removeTask", onRemoveTask)
+PubSub.subscribe("removeTask", onRemoveTask);
+PubSub.subscribe("addTaskButtonPressed", onAddTaskButtonPressed);
 
 const mobileQuery = window.matchMedia("(max-width: 560px)");
 
@@ -168,4 +169,11 @@ function onTaskCompleted(_msg, task) {
 function onRemoveTask(_msg, task) {
     taskArea.removeTaskCard(task);
     removeTask(task, "Completed");
+}
+
+function onAddTaskButtonPressed(_msg, _data) {
+    if (!taskArea.isOpen) {
+        taskArea.getContentArea().style.display = "flex";
+        taskArea.isOpen = true;
+    }
 }

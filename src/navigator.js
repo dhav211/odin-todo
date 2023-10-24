@@ -8,6 +8,7 @@ mobileQuery.addEventListener("change", setDisplayOnMediaQuery);
 
 PubSub.subscribe("hamburgerMenuPressed", activateMobileNavigatorMenu)
 PubSub.subscribe("navigatorButtonPressed", onNavigatorButtonPressed);
+PubSub.subscribe("addTaskButtonPressed", onAddTaskButtonPressed);
 
 export const navMenu = (() => {
     let isOpen = false;
@@ -188,4 +189,12 @@ function createUserListButtons() {
 
         return userList;
     });
+}
+
+function onAddTaskButtonPressed(_msg, _data) {
+    if (navMenu.isOpen)
+    {
+        navMenu.get().style.display = "none";
+        navMenu.isOpen = false;
+    }
 }

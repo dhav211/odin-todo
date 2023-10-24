@@ -207,7 +207,9 @@ export function createTaskForms(inputs) {
             //createdDate.setHours(0,0,0);  this may cause issues depending on time of day because javascript dates are fucking insane
             const todaysDate = DateTime.now();
 
-            if (createdDate < todaysDate) {
+            if (createdDate.day < todaysDate.day &&
+                createdDate.year < todaysDate.year &&
+                createdDate.month < todaysDate.month) {
                 setErrorMessage("Due Date can't be before today");
                 return false;
             }
@@ -233,8 +235,6 @@ export function createTaskForms(inputs) {
     })();
     
     const urgencyForm = (() => {
-        let _isSelected = false;
-    
         const _form = document.createElement('form');
         _form.classList.add("task-box-form");
     
@@ -260,7 +260,6 @@ export function createTaskForms(inputs) {
 
                 button.addEventListener("click", (_e) => {
                     inputs.urgency = title;
-                    _isSelected = true;
                 });
     
                 const buttonLabel = document.createElement("label");
@@ -280,7 +279,7 @@ export function createTaskForms(inputs) {
         const getForm = () => _form;
     
         const isValid = () => {
-            if (!_isSelected) {
+            if (inputs.urgency === undefined) {
                 setErrorMessage("Required");
                 return false;
             }
